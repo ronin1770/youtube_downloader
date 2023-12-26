@@ -26,6 +26,7 @@ python3 main.py list.txt
 Suppose the list of urls are stored in list.txt, it has the following syntax. It just contains one youtube url per line
 
 https://www.youtube.com/watch?v=1y3TKv7Chk4
+
 https://www.youtube.com/watch?v=bDMCwSP5nf0
 
 ### Sample Output
