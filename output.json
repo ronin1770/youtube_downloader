@@ -1,0 +1,44 @@
+Exception in get_youtube_info: Traceback (most recent call last):
+  File "/usr/local/development/youtube_downloader/src/youtube_downloader.py", line 25, in get_youtube_info
+    info_dict     = ydl.extract_info(video_url, download=False)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/YoutubeDL.py", line 1549, in extract_info
+    return self.__extract_info(url, self.get_info_extractor(key), download, extra_info, process)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/YoutubeDL.py", line 1560, in wrapper
+    return func(self, *args, **kwargs)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/YoutubeDL.py", line 1688, in __extract_info
+    ie_result = ie.extract(url)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/extractor/common.py", line 710, in extract
+    ie_result = self._real_extract(url)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/extractor/youtube.py", line 4061, in _real_extract
+    webpage, master_ytcfg, player_responses, player_url = self._download_player_responses(url, smuggled_data, video_id, webpage_url)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/extractor/youtube.py", line 4020, in _download_player_responses
+    webpage = self._download_webpage(
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/extractor/common.py", line 1113, in _download_webpage
+    return self.__download_webpage(url_or_request, video_id, note, errnote, None, fatal, *args, **kwargs)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/extractor/common.py", line 1064, in download_content
+    res = getattr(self, download_handle.__name__)(url_or_request, video_id, **kwargs)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/extractor/common.py", line 898, in _download_webpage_handle
+    urlh = self._request_webpage(url_or_request, video_id, note, errnote, fatal, data=data, headers=headers, query=query, expected_status=expected_status)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/extractor/common.py", line 837, in _request_webpage
+    return self._downloader.urlopen(self._create_request(url_or_request, data, headers, query))
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/YoutubeDL.py", line 3863, in urlopen
+    return self._opener.open(req, timeout=self._socket_timeout)
+  File "/usr/lib/python3.10/urllib/request.py", line 525, in open
+    response = meth(req, response)
+  File "/home/ronin1770/.local/lib/python3.10/site-packages/yt_dlp/utils/_utils.py", line 1428, in http_response
+    decoded_response = self.brotli(decoded_response or resp.read())
+  File "/usr/lib/python3.10/http/client.py", line 460, in read
+    return self._read_chunked(amt)
+  File "/usr/lib/python3.10/http/client.py", line 592, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+  File "/usr/lib/python3.10/http/client.py", line 631, in _safe_read
+    data = self.fp.read(amt)
+  File "/usr/lib/python3.10/socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/lib/python3.10/ssl.py", line 1303, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/lib/python3.10/ssl.py", line 1159, in read
+    return self._sslobj.read(len, buffer)
+KeyboardInterrupt
+
+None
