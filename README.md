@@ -27,9 +27,6 @@ Suppose the list of urls are stored in list.txt, it has the following syntax. It
 
 https://www.youtube.com/watch?v=1y3TKv7Chk4
 https://www.youtube.com/watch?v=bDMCwSP5nf0
-https://www.youtube.com/watch?v=-1d3SnS1FWQ
-https://www.youtube.com/watch?v=0iSha5e8TzA
-https://www.youtube.com/watch?v=xJZF-skCY-M
 
 ### Sample Output
 
