@@ -17,6 +17,58 @@ class YoutubeDownloader:
         self.output_type = "mp3"
         self.downloads_folder = "./downloads/"
 
+    #This file reads the list of urls / playfrom the given commandline argument
+    def read_file(self, file_name):
+        ret = []
+        try:
+            with open(file_name, 'r') as file:
+                lines = file.readlines()
+                for line in lines:
+                    line = line.strip()
+                    #check if contains a entry for a playlist 
+                    if "PL=>" in line:
+                        #get the list of the files and then append in the ret
+                        
+                        urls = self.get_urls_from_playlist(line.strip("PL=>"))
+                        if urls:
+                            ret = ret + urls
+                    else:
+                        ret.append(line)
+            return ret
+        except Exception as e:
+            traceback_info = traceback.format_exc()
+            print(f"Exception in get_youtube_info: {traceback_info}")
+            return []
+
+
+    #This function get the list of the video urls from the youtube playlist
+    def get_urls_from_playlist(self, youtube_playlist_url):
+        ret = []
+
+        try:
+            ydl_opts = {
+                'quiet': False,
+                'extract_flat': True,
+                'force_generic_extractor': True,
+                'extractor_args': {
+                    'youtube': {
+                        'quiet': False,
+                    }
+                },
+            }
+
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                playlist_info = ydl.extract_info(youtube_playlist_url, download=False)
+                videos = playlist_info['entries'] if 'entries' in playlist_info else []
+
+                for video in videos:
+                    ret.append( video['url'] )
+            return ret
+        except:
+            traceback_info = traceback.format_exc()
+            print(f"Exception in get_youtube_info: {traceback_info}")
+            return None
+
     #This function initializes the list containing the list of URLs to be processed
     def load_urls_to_process(self, urls):
         self._urls_to_process = urls

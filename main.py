@@ -8,18 +8,6 @@ import sys
 import traceback
 from src.youtube_downloader import YoutubeDownloader
 
-def read_file(file_name):
-    ret = []
-    try:
-        with open(file_name, 'r') as file:
-            lines = file.readlines()
-            for line in lines:
-                ret.append(line.strip())
-        return ret
-    except Exception as e:
-        traceback_info = traceback.format_exc()
-        print(f"Exception in get_youtube_info: {traceback_info}")
-        return []
 
 if __name__ == "__main__":
     # Check if a file name is provided as a command-line argument
@@ -28,13 +16,13 @@ if __name__ == "__main__":
         exit(0)
     
     file_name = sys.argv[1]
-    urls = read_file(file_name)
 
     ytd = YoutubeDownloader()
 
+    urls = ytd.read_file(file_name)
+
     ytd.load_urls_to_process(urls)
     downloaded = ytd.process_urls()
-
 
     print(f"Processed {len(downloaded)} out of provided {len(urls)}")
 
