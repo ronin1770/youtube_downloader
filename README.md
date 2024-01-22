@@ -36,7 +36,9 @@ https://www.youtube.com/watch?v=bDMCwSP5nf0
 We can use the same text file that contains list of youtube URLs. Let's suppose we call this **list.txt**, we can add playlist url as shown below:
 
 https://www.youtube.com/watch?v=1y3TKv7Chk4
+
 PL=>https://www.youtube.com/playlist?list=PLmt8QxZTX6rRZcnShk27RC0ZMMe3FMwSz
+
 https://www.youtube.com/watch?v=bDMCwSP5nf0
 
 In order to denote a playlist URL, we need to add PL=> in front of the line.
