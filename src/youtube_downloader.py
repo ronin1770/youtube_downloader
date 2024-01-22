@@ -7,6 +7,7 @@
 
 import yt_dlp
 import traceback, re, time
+import pandas as pd
 
 
 class YoutubeDownloader:
@@ -47,7 +48,7 @@ class YoutubeDownloader:
 
         try:
             ydl_opts = {
-                'quiet': False,
+                'quiet': True,
                 'extract_flat': True,
                 'force_generic_extractor': True,
                 'extractor_args': {
@@ -88,7 +89,7 @@ class YoutubeDownloader:
             traceback_info = traceback.format_exc()
             print(f"Exception in get_youtube_info: {traceback_info}")
             return None
-    
+        
     #This function converts the video title to safe unix filename
     def convert_to_unix_safe_filename(self, title):
         # Replace characters not allowed in Unix file names with underscores
@@ -154,4 +155,30 @@ class YoutubeDownloader:
         return downloaded
 
             
+    #This function will retrieve the information about the URLs
+    #By default it will return the dataframe object or None
+    def get_url_information(self,urls):
+        ret = []
+        count = 0
 
+        try:
+        
+            for url in urls:
+                print( f"Processing {count+1} of total URLs: {len(urls)}")
+                try:
+                    with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
+                        info_dict = ydl.extract_info(url, download=False)
+                        ret.append(info_dict)                
+                except:
+                    print(f"Exception in get_url_information")
+                    count = count+1
+                    continue                
+                count = count+1
+
+            return pd.DataFrame(ret)
+        except:
+            traceback_info = traceback.format_exc()
+            print(f"Exception in get_url_information: {traceback_info}")
+            return pd.DataFrame()
+
+        return ret
