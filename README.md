@@ -3,6 +3,14 @@
 ## Purpose
 The purpose of this software is to create a simple Python based Youtube downloader that takes a list of Youtube URLs in a text file as an input. It queries the Youtube API, gets the relevant information about the youtube URL(s) and downloads them in the designated folder. 
 
+## Update [12-Feb-2024]
+Now you can retrieve the information about the youtube videos without downloading them.  I have created a new command line flag called --information_output. 
+
+It can be of three types: 
+**txt**
+**json**
+**csv**
+
 ## Update [22-Jan-2024]
 youtube_downloader can download files from **public** youtube playlists. Now you can create playlists on Youtube and add that playlist in our download files list. The library will go and download available youtube videos as sound files.
 
@@ -25,6 +33,46 @@ Inside the root folder, run the following command:
  Suppose the list of urls are stored in list.txt, then you can execute this software using the following command:
 python3 main.py list.txt
 
+## Sample Call for getting Video Information
+The following commandline call shows how to get the information about the Youtube Video :
+
+### Getting Information Output as a Text
+
+    python3 main.py --file=list.txt --information=True --information_output=txt
+
+#### OUTPUT 
+
+    Processing 1 of total URLs: 1
+    Please find the information about supplied Youtube URLs as a Dataframe
+    Folder 'output' created successfully.
+    Output successfully written to ./output/data_output.txt
+    {"error": "0", "message": "Succesfully converted into txt", "outputfile": "./output/data_output.txt"}
+
+
+### Getting Information Output as a Json
+
+    python3 main.py --file=list.txt --information=True --information_output=csv
+
+#### OUTPUT
+
+    Processing 1 of total URLs: 1
+    Please find the information about supplied Youtube URLs as a Dataframe
+    Folder 'output' already exists.
+    Output successfully written to ./output/data_output.json
+    {"error": "0", "message": "Succesfully converted into json", "outputfile": "./output/data_output.json"}
+
+
+### Getting Information Output as a CSV
+
+    python3 main.py --file=list.txt --information=True --information_output=csv
+
+#### Output
+
+    Processing 1 of total URLs: 1
+    Please find the information about supplied Youtube URLs as a Dataframe
+    Folder 'output' already exists.
+    {"error": "0", "message": "Succesfully converted into csv", "outputfile": "./output/data_output.csv"}
+
 ### Sample URL list file
 Suppose the list of urls are stored in list.txt, it has the following syntax. It just contains one youtube url per line
 
@@ -36,9 +84,7 @@ https://www.youtube.com/watch?v=bDMCwSP5nf0
 We can use the same text file that contains list of youtube URLs. Let's suppose we call this **list.txt**, we can add playlist url as shown below:
 
 https://www.youtube.com/watch?v=1y3TKv7Chk4
-
 PL=>https://www.youtube.com/playlist?list=PLmt8QxZTX6rRZcnShk27RC0ZMMe3FMwSz
-
 https://www.youtube.com/watch?v=bDMCwSP5nf0
 
 In order to denote a playlist URL, we need to add PL=> in front of the line.
@@ -67,4 +113,6 @@ In order to denote a playlist URL, we need to add PL=> in front of the line.
     ..
     ..
     Processed 11 out of provided 11
+
+
 

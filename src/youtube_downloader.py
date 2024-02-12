@@ -6,7 +6,7 @@
 """
 
 import yt_dlp
-import traceback, re, time
+import traceback, re, time, os, json
 import pandas as pd
 
 
@@ -17,6 +17,7 @@ class YoutubeDownloader:
         self.output_ext = "mp3"
         self.output_type = "mp3"
         self.downloads_folder = "./downloads/"
+        self.output_folder = "./output/"
 
     #This file reads the list of urls / playfrom the given commandline argument
     def read_file(self, file_name):
@@ -182,3 +183,45 @@ class YoutubeDownloader:
             return pd.DataFrame()
 
         return ret
+
+    #This function gets the dataframe  and the type of output client wants
+    def convert_output_type(self, dataframe, output_type):
+        ret = {}
+
+        #Create output folder - check if it doesn't exist
+        self.create_output_folder()
+
+        output_filename = f"{self.output_folder}data_output"
+
+        try:
+            if output_type == "txt":
+                output_filename = f"{output_filename}.txt"
+                self.output_to_file( dataframe.to_string(index=False), output_filename )
+                ret = { "error" : "0", "message" : "Succesfully converted into txt", "outputfile": output_filename}
+            elif output_type == "json":
+                output_filename = f"{output_filename}.json"
+                self.output_to_file ( dataframe.to_json(orient='records'), output_filename)
+                ret = { "error" : "0", "message" : "Succesfully converted into json", "outputfile": output_filename}                
+            else:
+                output_filename = f"{output_filename}.csv"
+                dataframe.to_csv(output_filename, index=False)
+                ret = { "error" : "0", "message" : "Succesfully converted into csv", "outputfile": output_filename}
+            
+            return json.dumps(ret)
+        except:
+            traceback_info = traceback.format_exc()
+            print(f"Exception in convert_output_type: {traceback_info}")
+            return json.dumps( { "error" : "1", "message" : f"Exception in convert_output_type: {traceback_info}", "outputfile" : ""  })
+
+    def create_output_folder(self):
+        folder_name = 'output'
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+            print(f"Folder '{folder_name}' created successfully.")
+        else:
+            print(f"Folder '{folder_name}' already exists.")
+
+    def output_to_file(self, text, filename):
+        with open(filename, 'w') as file:
+            file.write(text)
+        print(f"Output successfully written to {filename}")
