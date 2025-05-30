@@ -15,6 +15,12 @@ jobs:
 
     - name: Set up SSH
       run: |
+        if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then
+          echo "❌ EC2_SSH_KEY is missing or empty"
+          exit 1
+        else
+          echo "✅ EC2_SSH_KEY is available"
+        fi
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
