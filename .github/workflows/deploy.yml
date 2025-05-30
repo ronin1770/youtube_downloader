@@ -15,5 +15,5 @@ jobs:
 
     - name: Deploy - pull latest code
       run: |
-        cd /tmp || exit 1
+        cd /tmp/youtube_downloader || exit 1
         git pull origin main
