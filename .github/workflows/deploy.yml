@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch
+      - main
 
 jobs:
   deploy:
@@ -16,9 +16,9 @@ jobs:
     - name: 🔐 Set up SSH
       run: |
         mkdir -p ~/.ssh
-        cat > ~/.ssh/id_rsa <<EOF 
-        ${{ secrets.SSH_PRIVATE_KEY }}
-        EOF
+        cat > ~/.ssh/id_rsa <<EOF
+${{ secrets.SSH_PRIVATE_KEY }}
+EOF
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
@@ -27,7 +27,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           set -e
           echo "🔁 Pulling latest code..."
-          cd /tmp/ 
+          cd /tmp/
           git pull origin main
           echo "✅ Deployment completed successfully."
         EOF
