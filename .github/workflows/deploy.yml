@@ -16,14 +16,25 @@ jobs:
       - name: 🔐 Set up SSH
         run: |
           mkdir -p ~/.ssh
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "Error: SSH_PRIVATE_KEY is empty or not set"
+            exit 1
+          fi
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          if [ -z "${{ secrets.EC2_HOST }}" ]; then
+            echo "Error: EC2_HOST is empty or not set"
+            exit 1
+          fi
+          ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts || {
+            echo "Error: ssh-keyscan failed for host ${{ secrets.EC2_HOST }}"
+            exit 1
+          }
         shell: bash
 
       - name: 🚀 Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" << 'EOF'
             set -e
             echo "🔁 Pulling latest code..."
             cd /tmp/
