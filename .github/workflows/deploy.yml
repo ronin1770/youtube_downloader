@@ -10,24 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📥 Checkout code
-      uses: actions/checkout@v4
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
 
-    - name: 🔐 Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        cat > ~/.ssh/id_rsa <<EOF
-${{ secrets.SSH_PRIVATE_KEY }}
-EOF
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+      - name: 🔐 Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        shell: bash
 
-    - name: 🚀 Deploy to EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          set -e
-          echo "🔁 Pulling latest code..."
-          cd /tmp/
-          git pull origin main
-          echo "✅ Deployment completed successfully."
-        EOF
+      - name: 🚀 Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            set -e
+            echo "🔁 Pulling latest code..."
+            cd /tmp/
+            git pull origin main
+            echo "✅ Deployment completed successfully."
+          EOF
+        shell: bash
